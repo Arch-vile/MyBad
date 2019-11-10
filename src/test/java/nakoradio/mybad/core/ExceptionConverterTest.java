@@ -16,7 +16,7 @@ class ExceptionConverterTest {
 
     // When: Exception is parsed
     Error error = converter
-        .convert(new IllegalArgumentException("this is the message"));
+        .convert(new IllegalArgumentException("this is the message")).getError();
 
     // Then: Message is properly parsed
     assertThat(error.getMessage(), equalTo("default This happened: this is the message"));
@@ -31,7 +31,7 @@ class ExceptionConverterTest {
 
     // When: Exception not accepted by any parser is parsed
     Error error = converter
-        .convert(new NullPointerException("this is the message"));
+        .convert(new NullPointerException("this is the message")).getError();
 
     // Then: Default parser is there to provide the message
     assertThat(error.getMessage(), equalTo("this is the message"));
@@ -48,12 +48,27 @@ class ExceptionConverterTest {
 
     // When: Exception accepted by both parsers is parsed
     Error error = converter
-        .convert(new IllegalArgumentException("this is the message"));
+        .convert(new IllegalArgumentException("this is the message")).getError();
 
     // Then: First parser is applied
     assertThat(error.getMessage(), equalTo("first This happened: this is the message"));
   }
 
+  @Test
+  public void originalExceptionIsAttachedToError() {
+    // Given: Config with one parser
+    ExceptionConverterConfig config =
+        new ExceptionConverterConfig().addParser(new IllegalArgumentExceptionParser());
+    ExceptionConverter converter = new ExceptionConverter(config);
+
+    // When: Exception handled by the parser
+    IllegalArgumentException ex = new IllegalArgumentException(
+        "this is the message");
+    Result result = converter.convert(ex);
+
+    // Then: Original exception is available
+    assertThat(result.getSourceException(), equalTo(ex));
+  }
 
   public static class IllegalArgumentExceptionParser implements ErrorParser {
 

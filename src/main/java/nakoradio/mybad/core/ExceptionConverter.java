@@ -12,11 +12,13 @@ public class ExceptionConverter {
    this.defaultParser = new DefaultParser();
   }
 
-  public Error convert(Exception e) {
-return    parsers.stream()
-    .filter(it -> it.accepts(e))
-    .findFirst()
-    .orElse(this.defaultParser)
-    .parse(e);
+  public Result convert(Exception e) {
+    Error error = parsers.stream()
+        .filter(it -> it.accepts(e))
+        .findFirst()
+        .orElse(this.defaultParser)
+        .parse(e);
+
+    return new Result(error, e);
   }
 }
