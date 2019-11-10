@@ -14,24 +14,60 @@ class ExceptionConverterTest {
         new ExceptionConverterConfig().addParser(new IllegalArgumentExceptionParser());
     ExceptionConverter converter = new ExceptionConverter(config);
 
-    // Then: Message is parsed
+    // When: Exception is parsed
     Error error = converter
         .convert(new IllegalArgumentException("this is the message"));
+
+    // Then: Message is properly parsed
+    assertThat(error.getMessage(), equalTo("This happened: this is the message"));
+  }
+
+  @Test
+  public void defaultParser() {
+    // Given: Config with one parser
+    ExceptionConverterConfig config =
+        new ExceptionConverterConfig().addParser(new IllegalArgumentExceptionParser());
+    ExceptionConverter converter = new ExceptionConverter(config);
+
+    // When: Exception not accepted by any parser is parsed
+    Error error = converter
+        .convert(new NullPointerException("this is the message"));
+
+    // Then: Default parser is there to provide the message
     assertThat(error.getMessage(), equalTo("this is the message"));
   }
 
-  public static class IllegalArgumentExceptionParser implements ErrorParser<IllegalArgumentException> {
+  @Test
+  public void parsersAppliedInOrder() {
+    // Given: Config with two parsers accepting the same exceptions
+
+    ExceptionConverterConfig config =
+        new ExceptionConverterConfig().addParser(new IllegalArgumentExceptionParser());
+    ExceptionConverter converter = new ExceptionConverter(config);
+
+    // When: Exception not accepted by any parser is parsed
+    Error error = converter
+        .convert(new NullPointerException("this is the message"));
+
+    // Then: Default parser is there to provide the message
+    assertThat(error.getMessage(), equalTo("this is the message"));
+
+
+  }
+
+
+  public static class IllegalArgumentExceptionParser implements ErrorParser {
 
     @Override
-    public Error parse(IllegalArgumentException ex) {
+    public Error parse(Exception ex) {
       return Error.builder()
-          .message(ex.getMessage())
+          .message("This happened: " + ex.getMessage())
           .build();
     }
 
     @Override
-    public boolean accepts(IllegalArgumentException ex) {
-      return true;
+    public boolean accepts(Exception ex) {
+      return ex instanceof IllegalArgumentException;
     }
   }
 

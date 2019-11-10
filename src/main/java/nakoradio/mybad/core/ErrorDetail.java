@@ -7,6 +7,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 abstract public class ErrorDetail {
 
+  // TODO: Consider which are nullable
   private final String message;
   private final String messageCode;
   private final String description;

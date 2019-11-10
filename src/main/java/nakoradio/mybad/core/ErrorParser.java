@@ -1,6 +1,6 @@
 package nakoradio.mybad.core;
 
-public interface ErrorParser<T extends Exception> {
-  Error parse(T ex);
-  boolean accepts(T ex);
+public interface ErrorParser {
+  Error parse(Exception ex);
+  boolean accepts(Exception ex);
 }
