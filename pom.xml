@@ -5,6 +5,7 @@
     <name>MyBad</name>
     <modules>
         <module>core</module>
+        <module>spring-boot-2-2-4-demo</module>
     </modules>
     <artifactId>mybad-parent</artifactId>
     <groupId>nakoradio.mybad</groupId>

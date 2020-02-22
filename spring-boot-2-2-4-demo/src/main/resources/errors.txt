@@ -1,0 +1,46 @@
+
+{
+    "timestamp": "2020-02-09T08:37:25.014+0000",
+    "status": 400,
+    "error": "Bad Request",
+    "errors": [
+        {
+            "codes": [
+                "Max.simpleForm.name",
+                "Max.name",
+                "Max"
+            ],
+            "arguments": [
+                {
+                    "codes": [
+                        "simpleForm.name",
+                        "name"
+                    ],
+                    "arguments": null,
+                    "defaultMessage": "name",
+                    "code": "name"
+                },
+                2
+            ],
+            "defaultMessage": "must be less than or equal to 2",
+            "objectName": "simpleForm",
+            "field": "name",
+            "rejectedValue": "ff",
+            "bindingFailure": false,
+            "code": "Max"
+        }
+    ],
+    "message": "Validation failed for object='simpleForm'. Error count: 1",
+    "path": "/form"
+}
+
+
+{
+    "timestamp": "2020-02-09T08:40:16.254+0000",
+    "status": 400,
+    "error": "Bad Request",
+    "message": "JSON parse error: Cannot deserialize value of type `java.lang.Integer` from String \"fooo\": not a valid Integer value; nested exception is com.fasterxml.jackson.databind.exc.InvalidFormatException: Cannot deserialize value of type `java.lang.Integer` from String \"fooo\": not a valid Integer value\n at [Source: (PushbackInputStream); line: 2, column: 12] (through reference chain: SpringDemoApplication$SimpleForm[\"amount\"])",
+    "path": "/form"
+}
+
+
