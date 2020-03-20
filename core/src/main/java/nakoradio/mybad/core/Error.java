@@ -1,16 +1,23 @@
 package nakoradio.mybad.core;
 
-import java.util.ArrayList;
-import java.util.List;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
-@SuperBuilder
-public class Error extends ErrorDetail {
+@Getter
+@Builder
+public class Error {
 
-  private final List<ErrorDetail> causes = new ArrayList<>();
+  // TODO: Consider which are nullable
+  @NonNull
+  private final ErrorType type;
+
+  private final String message;
+  private final String messageCode;
+  private final String description;
+  private final String technicalDescription;
+
+
 }
+

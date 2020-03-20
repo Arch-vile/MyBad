@@ -13,7 +13,7 @@ public class ExceptionConverter {
   }
 
   public Result convert(Exception e) {
-    Error error = parsers.stream()
+    Failure error = parsers.stream()
         .filter(it -> it.accepts(e))
         .findFirst()
         .orElse(this.defaultParser)

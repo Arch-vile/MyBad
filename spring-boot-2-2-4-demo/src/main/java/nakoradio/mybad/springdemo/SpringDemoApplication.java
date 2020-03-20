@@ -2,6 +2,7 @@ package nakoradio.mybad.springdemo;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
+import lombok.Data;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpHeaders;
@@ -46,6 +47,7 @@ public class SpringDemoApplication {
 		}
 	}
 
+	@Data
 	@Valid
 	public static class SimpleForm {
 
@@ -56,6 +58,9 @@ public class SpringDemoApplication {
 		public String name2;
 
 		public Integer amount;
+
+		@Valid
+		public SimpleForm nestedForm;
 	}
 
 }

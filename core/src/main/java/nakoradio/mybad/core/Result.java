@@ -9,7 +9,7 @@ import lombok.NonNull;
 public class Result {
 
   @NonNull
-  private final Error error;
+  private final Failure error;
 
  @NonNull
   private final Exception sourceException;

@@ -3,6 +3,7 @@ package nakoradio.mybad.core;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
+import nakoradio.mybad.core.utils.CollectionUtils.List;
 import org.junit.jupiter.api.Test;
 
 class ExceptionConverterTest {
@@ -15,11 +16,11 @@ class ExceptionConverterTest {
     ExceptionConverter converter = new ExceptionConverter(config);
 
     // When: Exception is parsed
-    Error error = converter
+    Failure error = converter
         .convert(new IllegalArgumentException("this is the message")).getError();
 
     // Then: Message is properly parsed
-    assertThat(error.getMessage(), equalTo("default This happened: this is the message"));
+    assertThat(error.getErrors().get(0).getMessage(), equalTo("default This happened: this is the message"));
   }
 
   @Test
@@ -30,11 +31,11 @@ class ExceptionConverterTest {
     ExceptionConverter converter = new ExceptionConverter(config);
 
     // When: Exception not accepted by any parser is parsed
-    Error error = converter
+    Failure error = converter
         .convert(new NullPointerException("this is the message")).getError();
 
     // Then: Default parser is there to provide the message
-    assertThat(error.getMessage(), equalTo("this is the message"));
+    assertThat(error.getErrors().get(0).getMessage(), equalTo("this is the message"));
   }
 
   @Test
@@ -47,11 +48,11 @@ class ExceptionConverterTest {
     ExceptionConverter converter = new ExceptionConverter(config);
 
     // When: Exception accepted by both parsers is parsed
-    Error error = converter
+    Failure error = converter
         .convert(new IllegalArgumentException("this is the message")).getError();
 
     // Then: First parser is applied
-    assertThat(error.getMessage(), equalTo("first This happened: this is the message"));
+    assertThat(error.getErrors().get(0).getMessage(), equalTo("first This happened: this is the message"));
   }
 
   @Test
@@ -83,9 +84,9 @@ class ExceptionConverterTest {
     }
 
     @Override
-    public Error parse(Exception ex) {
-      return Error.builder()
-          .message(name + " This happened: " + ex.getMessage())
+    public Failure parse(Exception ex) {
+      return Failure.builder()
+          .errors(List.of(Error.builder().message(name + " This happened: " + ex.getMessage()).build()))
           .build();
     }
 
