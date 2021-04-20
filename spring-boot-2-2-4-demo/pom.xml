@@ -40,6 +40,15 @@
       <version>1.18.10</version>
       <scope>compile</scope>
     </dependency>
+
+<!--    Test dependencies-->
+    <dependency>
+      <groupId>io.rest-assured</groupId>
+      <artifactId>rest-assured-all</artifactId>
+      <version>4.3.0</version>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
 
   <build>
